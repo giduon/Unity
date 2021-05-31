@@ -9,7 +9,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject bullet;
     public Transform firePosition;
     public GameObject fireEffect;
-
+    public int attackPower = 3;
     ParticleSystem ps;
 
     void Start()
@@ -58,6 +58,14 @@ public class PlayerFire : MonoBehaviour
                 ps = go.GetComponent<ParticleSystem>();
                 ps.Stop();
                 ps.Play();
+
+                if(hitInfo.transform.name.Contains("Enemy"))
+                {
+                    EnemyFSM efsm = hitInfo.transform.GetComponent<EnemyFSM>();
+                    efsm.Damaged(attackPower);
+                }
+
+                
             }
         }
     }

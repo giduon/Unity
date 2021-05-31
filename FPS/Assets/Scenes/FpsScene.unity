@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 495600082}
   - component: {fileID: 495600086}
   - component: {fileID: 495600087}
+  - component: {fileID: 495600088}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -343,7 +344,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 495600081}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -428,6 +429,9 @@ MonoBehaviour:
   sightRange: 8
   attackRange: 2
   moveSpeed: 6
+  attackPower: 2
+  delayTime: 1
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!143 &495600087
 CharacterController:
   m_ObjectHideFlags: 0
@@ -446,6 +450,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &495600088
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495600081}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &646638058
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087232554}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: 0, z: 0.69}
+  m_LocalPosition: {x: -0.6, y: 0, z: 0.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1848829573}
@@ -1108,6 +1128,7 @@ MonoBehaviour:
   bullet: {fileID: 6277824711740941761, guid: 2d3fa13a9ead6cf45b0692d7500ea207, type: 3}
   firePosition: {fileID: 1087232555}
   fireEffect: {fileID: 100002, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
+  attackPower: 3
 --- !u!1 &1576897113
 GameObject:
   m_ObjectHideFlags: 0

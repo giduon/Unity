@@ -23,6 +23,8 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower = 5.0f;
     public float jumpCount = 2;
 
+    int healthPoint = 10;
+
     float tongtong = 0;
     bool isJump = false;
 
@@ -91,4 +93,13 @@ public class PlayerMove : MonoBehaviour
         // 방향으로 이동한다. P = P0 * vt
         cc.Move(dir * moveSpeed * Time.deltaTime);
     }
+
+    public void ApplyDamage(int val)
+    {
+        healthPoint -= val;
+        healthPoint = Mathf.Max(healthPoint, 0);
+        print("현재 체럭: " + healthPoint);
+    }
+
 }
+
