@@ -62,6 +62,7 @@ public class PlayerFire : MonoBehaviour
                 if(hitInfo.transform.name.Contains("Enemy"))
                 {
                     EnemyFSM efsm = hitInfo.transform.GetComponent<EnemyFSM>();
+                    
                     efsm.Damaged(attackPower);
                 }
 

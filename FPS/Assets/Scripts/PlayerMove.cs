@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower = 5.0f;
     public float jumpCount = 2;
 
-    int healthPoint = 10;
+    public int healthPoint = 10;
 
     float tongtong = 0;
     bool isJump = false;

@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637574485389243652
-    m_Hash: 1641546182
+      ticks: 637581190810393694
+    m_Hash: 3658386447
   m_LockFileStatus:
     m_FilePath: "C:/Users/giduo/OneDrive/\uBC14\uD0D5 \uD654\uBA74/git/Unity/FPS/Packages/packages-lock.json"
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637574485635809032
-    m_Hash: 1049041275
+      ticks: 637581190810636157
+    m_Hash: 4289142586
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -224,89 +224,6 @@ m_PackageAssets:
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.rider.git
         revision: abb44f053e9a41d2e00e149e32a19bcec76e98b4
         path: 
-    - packageId: com.unity.ide.visualstudio@2.0.7
-      testable: 0
-      isDirectDependency: 1
-      version: 2.0.7
-      source: 1
-      resolvedPath: "C:\\Users\\giduo\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\git\\Unity\\FPS\\Library\\PackageCache\\com.unity.ide.visualstudio@2.0.7"
-      assetPath: Packages/com.unity.ide.visualstudio
-      name: com.unity.ide.visualstudio
-      displayName: Visual Studio Editor
-      author:
-        name: 
-        email: 
-        url: 
-      category: 
-      type: 
-      description: Code editor integration for supporting Visual Studio as code editor
-        for unity. Adds support for generating csproj files for intellisense purposes,
-        auto discovery of installations, etc.
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 1.0.2
-        - 1.0.3
-        - 1.0.4
-        - 1.0.9
-        - 1.0.10
-        - 1.0.11
-        - 2.0.0
-        - 2.0.1
-        - 2.0.2
-        - 2.0.3
-        - 2.0.5
-        - 2.0.7
-        - 2.0.8
-        compatible:
-        - 1.0.2
-        - 1.0.3
-        - 1.0.4
-        - 1.0.9
-        - 1.0.10
-        - 1.0.11
-        - 2.0.0
-        - 2.0.1
-        - 2.0.2
-        - 2.0.3
-        - 2.0.5
-        - 2.0.7
-        - 2.0.8
-        verified: 2.0.8
-      dependencies:
-      - name: com.unity.test-framework
-        version: 1.1.9
-      resolvedDependencies:
-      - name: com.unity.test-framework
-        version: 1.1.24
-      - name: com.unity.ext.nunit
-        version: 1.0.6
-      - name: com.unity.modules.imgui
-        version: 1.0.0
-      - name: com.unity.modules.jsonserialize
-        version: 1.0.0
-      keywords: []
-      registry:
-        id: main
-        name: 
-        url: https://packages.unity.com
-        scopes: []
-        isDefault: 1
-        capabilities: 7
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637486638490000000
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.visualstudio.git
-        revision: dec282022c7a95fada560c36f53da9dd155a142c
-        path: 
     - packageId: com.unity.ide.vscode@1.2.3
       testable: 0
       isDirectDependency: 1
@@ -424,9 +341,11 @@ m_PackageAssets:
         - 1.1.20
         - 1.1.22
         - 1.1.24
+        - 1.1.26
         compatible:
         - 1.1.24
-        verified: 1.1.24
+        - 1.1.26
+        verified: 1.1.26
       dependencies:
       - name: com.unity.ext.nunit
         version: 1.0.6
