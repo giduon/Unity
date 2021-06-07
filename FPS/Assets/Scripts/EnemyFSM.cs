@@ -34,6 +34,10 @@ public class EnemyFSM : MonoBehaviour
     public int healthPoint = 100;
     Animator enemyAnim;
 
+
+    bool playMoveAni = false;
+
+
     public Transform GetTargetTrasform()
     {
         return player;
@@ -53,6 +57,9 @@ public class EnemyFSM : MonoBehaviour
 
         // 자식 오브젝트로부터 Animator 컴포넌트를 가져온다
         enemyAnim = GetComponentInChildren<Animator>();
+
+        // 파라미터 초기화 
+        enemyAnim.SetBool("IsDie", false);
     }
 
     void Update()
@@ -94,12 +101,7 @@ public class EnemyFSM : MonoBehaviour
         if (sightRange >= distance)
         {
             SetMoveState();
-            //eState = EnemyState.Move;
-
-            //// 현재 회전 상태를 startRot로 저장한다.
-            //startRotation = transform.rotation;
-            //// 회전 보간을 위한 rotRate도 0으로 초기화한다
-            //rotRate = 0;
+           
         }
     }
 
@@ -122,7 +124,6 @@ public class EnemyFSM : MonoBehaviour
 
             return;
         }
-
         dir.Normalize();
         cc.Move(dir * moveSpeed * Time.deltaTime);
 
@@ -134,6 +135,7 @@ public class EnemyFSM : MonoBehaviour
         rotRate += Time.deltaTime * 2f;
         // 선형 보간을 이용하여 회전을 한다. 
         transform.rotation = Quaternion.Lerp(startRot, endRot, rotRate);
+
 
 
     }
@@ -193,18 +195,43 @@ public class EnemyFSM : MonoBehaviour
     // 피격 처리 함수
     public void Damaged(int val)
     {
-        if (eState != EnemyState.Damaged)
+        if(eState == EnemyState.Move)
         {
-            healthPoint = Mathf.Max(healthPoint - val, 0);
+            playMoveAni = true;
+        }
+        else
+        {
+            playMoveAni = false;
+        }
+        
+        healthPoint = Mathf.Max(healthPoint - val, 0);
+
+        //만일 체력이 0 이하이면 Die 상태로 변경한다
+        if(healthPoint <= 0)
+        {
+            eState = EnemyState.Die;
+
+            // 죽음 애니메니션을 호출한다.
+            enemyAnim.SetBool("IsDie", true);
+
+            // 캐릭터 콘트롤러와 캡슐 콜라이더를 전부 비활성화한다. 
+            cc.enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
+        }
+        // 그렇지 아니면, Damaged 상태로 변경한다. 
+        else
+        {
             eState = EnemyState.Damaged;
 
             // 피격 애니메이션을 호출한다.
             enemyAnim.SetTrigger("OnHit");
 
+
+        }
            
 
             //Invoke("ReturnState", 0.9f);
-        }
+        
     }
     private void CheckClipTime()
     {
@@ -214,22 +241,53 @@ public class EnemyFSM : MonoBehaviour
 
 
         // 만일, 현재 상태의 이름이 "Move State" 라면
-        if ( myStateInfo.IsName("Move State"))
+        if(playMoveAni)
         {
-            ReturnState();
-            
-            //print("length: " + myStateInfo.length);
-            
+            if(myStateInfo.IsName("Hit State"))
+            {
+                playMoveAni = false;
+            }
         }
+        else
+        {
+
+            if  ( myStateInfo.IsName("Move State"))
+            {
+                ReturnState();
+            
+            
+                //print("length: " + myStateInfo.length);
+            
+            }
+        }
+
     }
 
     void ReturnState()
     {
+        
         eState = EnemyState.Move;
     }
 
     private void Die()
     {
+        // 만일, IsDie 파라미터의 값이 true라면 false로 변경해준다. 
+        if(enemyAnim.GetBool("IsDie"))
+        {
+        }
+        // 만일 , Die 애니메이션이 실행 중이고, 애니메이션 진행률이  1.0(100%)에 도달했을 때..
+        AnimatorStateInfo mySatte = enemyAnim.GetCurrentAnimatorStateInfo(0);
+
+        if(mySatte.IsName("Die State") )
+        {
+            enemyAnim.SetBool("IsDie", false);
+            if(mySatte.normalizedTime >= 1.0f)
+            {
+                //자기 자신을 제거한다.
+                Destroy(gameObject);
+
+            }
+        }
 
     }
 
