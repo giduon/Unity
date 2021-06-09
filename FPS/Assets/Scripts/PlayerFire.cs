@@ -11,6 +11,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject fireEffect;
     public int attackPower = 3;
     ParticleSystem ps;
+    public Animator anim;
 
     void Start()
     {
@@ -39,6 +40,8 @@ public class PlayerFire : MonoBehaviour
 
             // 2. 레이가 부딪힌 대상의 정보를 담을 변수를 선언한다.
             RaycastHit hitInfo;
+
+            anim.SetTrigger("Fire");
 
             // 3. 레이를 발사한다!
             if (Physics.Raycast(ray, out hitInfo))

@@ -9,7 +9,6 @@ public class PlayerMove : MonoBehaviour
     
     // 이동 속도
     public float walkSpeed = 3.5f;
-
     public float runSpeed = 7.0f;
     
     // 플레이어에게 중력을 적용하고 싶다. 
@@ -25,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower = 5.0f;
     public float jumpCount = 2;
     public int healthPoint = 10;
+
     float tongtong = 0;
     bool isJump = false;
     CharacterController cc;
@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // 키 입력을 받는다. 
         float h = Input.GetAxis("Horizontal");
@@ -51,27 +51,8 @@ public class PlayerMove : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v);
         dir.Normalize();
 
-        // 방향으로 이동한다. P = P0 * vt
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            moveSpeed = dir.magnitude * runSpeed;
-        }
-        else
-        {
-            moveSpeed = dir.magnitude * walkSpeed;
 
-        }
-        // 중력 값을 적용한다.
-        yVelocity += gravity * Time.deltaTime;
-        dir.y = yVelocity;
-
-
-        //moveSpeed = Input.GetKeyDown(KeyCode.LeftShift) == true ? dir.magnitude * runSpeed : dir.magnitude * walkSpeed;
-
-        cc.Move(dir * moveSpeed * Time.deltaTime);
-
-        // 플레이어의 현재 속도를 Animator 의 "PlayerSpeed" 파라미터에 전달한다. 
-        playerAnim.SetFloat("PlayerSpeed", moveSpeed / runSpeed);
+       
 
         // 방향 벡터를 카메라의 방향을 기준으로 재계산한다.
         dir = Camera.main.transform.TransformDirection(dir);
@@ -81,36 +62,66 @@ public class PlayerMove : MonoBehaviour
             jumpCount = 2;
             yVelocity = 0;
 
-            // 통통 튕겨오르기
-            if (isJump)
-            {
-                tongtong *= 0.4f;
+            //// 통통 튕겨오르기
+            //if (isJump)
+            //{
+            //    tongtong *= 0.4f;
 
-                if (tongtong > 0.1f)
-                {
-                    yVelocity = tongtong;
-                }
-                else
-                {
-                    tongtong = jumpPower;
-                    isJump = false;
-                }
-            }
+            //    if (tongtong > 0.1f)
+            //    {
+            //        yVelocity = tongtong;
+            //    }
+            //    else
+            //    {
+            //        tongtong = jumpPower;
+            //        isJump = false;
+            //    }
+            //}
         }
 
         // 사용자의 space 키 입력을 받는다.
         if (Input.GetButtonDown("Jump") && jumpCount > 0)
         {
             // 위쪽 방향으로의 힘(점프력)을 추가한다.
-            //yVelocity = jumpPower;
-            yVelocity = tongtong;
+            yVelocity = jumpPower;
+            //yVelocity = tongtong;
             jumpCount--;
             isJump = true;
         }
 
+        // 방향으로 이동한다. P = P0 * vt
+
+        moveSpeed = walkSpeed;
+        float animSpeed = 0;
+
+        if(dir.magnitude > 0)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+               animSpeed =  moveSpeed = dir.magnitude * runSpeed;
+            }
+            else
+            {
+               animSpeed = moveSpeed = dir.magnitude * walkSpeed;
+            }
+        }
+
+        //moveSpeed = Input.GetKeyDown(KeyCode.LeftShift) == true ? dir.magnitude * runSpeed : dir.magnitude * walkSpeed;
+
+        // < 1D 방식 > 플레이어의 현재 속도를 Animator 의 "PlayerSpeed" 파라미터에 전달한다. 
+        //playerAnim.SetFloat("PlayerSpeed", animSpeed / runSpeed);
+
+        // < 2 D 방식 > 플레이어의 전후방 방향 값과 좌우 방향 값을 animator 파라미터에 전달한다. 
+        playerAnim.SetFloat("Speed_V", v);
+        playerAnim.SetFloat("Speed_H", h);
 
 
-        
+        // 중력 값을 적용한다.
+        yVelocity += gravity * Time.deltaTime;
+        dir.y = yVelocity;
+
+        cc.Move(dir * moveSpeed * Time.deltaTime);
+
     }
 
     public void ApplyDamage(int val)
