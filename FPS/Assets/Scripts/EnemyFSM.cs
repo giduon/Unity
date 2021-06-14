@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class EnemyFSM : MonoBehaviour
     bool isBooked = false;
     public int healthPoint = 100;
     Animator enemyAnim;
-
+    NavMeshAgent smith;
 
     bool playMoveAni = false;
 
@@ -60,6 +61,12 @@ public class EnemyFSM : MonoBehaviour
 
         // 파라미터 초기화 
         enemyAnim.SetBool("IsDie", false);
+
+        // NavMeshAgent 컴포넌트를 가져온다
+        smith = GetComponent<NavMeshAgent>();
+        smith.speed = 5.0f;
+        smith.acceleration = 5.0f;
+        smith.stoppingDistance = attackRange;
     }
 
     void Update()
@@ -71,7 +78,8 @@ public class EnemyFSM : MonoBehaviour
                 Idle();
                 break;
             case EnemyState.Move:
-                Move();
+                //Move();
+                Move2();
                 break;
             case EnemyState.Attack:
                 Attack();
@@ -107,6 +115,8 @@ public class EnemyFSM : MonoBehaviour
 
     private void Move()
     {
+        
+
         // 플레이어 방향으로 이동한다.
         Vector3 dir = player.position - transform.position;
         float distance = dir.magnitude;
@@ -139,6 +149,23 @@ public class EnemyFSM : MonoBehaviour
 
 
     }
+
+    void Move2()
+    {
+        smith.enabled = true;
+
+        //플레이어의 위치를 네브메쉬의 목적지로 설정한다. 
+        smith.SetDestination(player.position);
+
+        float dist = Vector3.Distance(player.position, transform.position);
+        if(dist <= attackRange)
+        {
+            eState = EnemyState.Attack;
+            enemyAnim.SetTrigger("MoveToAttack");
+            smith.isStopped = false;
+        }
+    }
+
 
     private void Attack() // 애니메이션과 데미지를 맞추기 위해서 따로 분리 했다. 여기선 애니메이션만 실행.
     {
@@ -203,7 +230,11 @@ public class EnemyFSM : MonoBehaviour
         {
             playMoveAni = false;
         }
-        
+
+        // 네비게이션 메쉬를 멈춘다. 
+        //smith.isStopped = true;
+        smith.enabled = false;
+
         healthPoint = Mathf.Max(healthPoint - val, 0);
 
         //만일 체력이 0 이하이면 Die 상태로 변경한다
