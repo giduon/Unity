@@ -25,6 +25,7 @@ public class EnemyFSM : MonoBehaviour
     public float moveSpeed = 9.0f;
     public int attackPower = 2;
     public float delayTime = 1.0f;
+    public int maxHp = 100;
 
     Transform player;
     CharacterController cc;
@@ -32,7 +33,7 @@ public class EnemyFSM : MonoBehaviour
     Quaternion startRotation;
     float currentTime = 0;
     bool isBooked = false;
-    public int healthPoint = 100;
+    int healthPoint = 0;
     Animator enemyAnim;
     NavMeshAgent smith;
 
@@ -44,10 +45,17 @@ public class EnemyFSM : MonoBehaviour
         return player;
     }
 
+    public int GetHp()
+    {
+        return healthPoint;
+    }
+
 
 
     void Start()
     {
+        healthPoint = maxHp;
+
         // 최초의 상태는 대기 상태이다.
         eState = EnemyState.Idle;
 
@@ -225,6 +233,7 @@ public class EnemyFSM : MonoBehaviour
         if(eState == EnemyState.Move)
         {
             playMoveAni = true;
+
         }
         else
         {
